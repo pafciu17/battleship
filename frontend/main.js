@@ -9,7 +9,7 @@ const getBoardFilledWith = emptyValue => R.compose(
 
 const ourShips = getBoardFilledWith(' ')
 
-const targetShip = getBoardFilledWith('u')
+const targetShips = getBoardFilledWith('u')
 
 const Block = ({ type }) => {
     const className = `board-block board-block-${type}`
@@ -36,23 +36,27 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ourShips
+            ourShips,
+            enemyShips: targetShips
         };
     }
 
     componentDidMount() {
         socket.on('started', ({ grid }) => {
             this.setState({
-                ourShips: grid
+                ourShips: grid,
+                enemyShips: targetShips
             })
         })
 
         socket.on('updated', ({ battlefield, enemyBoard }) => {
+            console.log(battlefield, enemyBoard, '!!!!!!!!!!!!!!!!!!!!!!')
             this.setState({
                 ourShips: battlefield,
                 enemyShips: enemyBoard
             })
         })
+
     }
 
     render() {
@@ -64,7 +68,7 @@ class App extends React.Component {
                         <Board items={this.state.ourShips}/>
                     </div>
                     <div className="board-container">
-                        <Board items={targetShip}/>
+                        <Board items={this.state.enemyShips}/>
                     </div>
                 </div>
             </div>

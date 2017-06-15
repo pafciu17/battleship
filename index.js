@@ -78,6 +78,7 @@ SUNK = 'SUNK';
 const enemyBoard = Array(10).fill(null).map(x => Array(10).fill(null));
 
 const updateBoards = (report) => {
+    console.log('UPDATED!!!!!!!')
     battlefield[parseInt(report.enemy.target.y)][parseInt(report.enemy.target.x)] = report.enemy.event;
     enemyBoard[parseInt(report.you.target.y)][parseInt(report.you.target.x)] = report.you.event;
     io.emit('updated', {
