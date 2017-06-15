@@ -24,6 +24,8 @@ app.listen(3000, function () {
 })
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/start_game', function (req, res) {
+    clean();
+
     for(var i = 0; i < 5; i++)
     {
         var fitsIn = false;
@@ -34,19 +36,18 @@ app.get('/start_game', function (req, res) {
             point.x = getRandomInt();
             point.y = getRandomInt();
 
+            console.log(point);
+
             for(index = 0; index < 4; index++) {
                 fitsIn = checkIfFitsIn(point, directions[index], ships[i]);
                 if(fitsIn) break;
             }
         } while(!fitsIn)
 
-        placeTheShip(point, directions[index], ships[i]);
+        placeTheShip(point, directions[index], "" + (i+1));
     }
 
-    var response = {
-        grid: battlefield
-    }
-    res.send(`${JSON.stringify(response)}`);
+    sendBattlefield(res);
 })
 
 app.post('/next_turn', (req, res) => {
@@ -67,6 +68,14 @@ const ourBoard = new Array(10).fill(new Array(10))
 
 const updateOurBoard = (x, y) => {
   
+}
+
+function sendBattlefield(res){
+    var response = {
+        grid: battlefield
+    };
+
+    res.send(`${JSON.stringify(response)}`);
 }
 
 function clean() {
