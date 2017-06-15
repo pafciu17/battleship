@@ -9,3 +9,10 @@ app.get('/start_game', function (req, res) {
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!')
 })
+
+MISS = 'o'
+HIT = 'x'
+SUNK = 's'
+
+const enemyBoard = Array(10).fill(Array(10))
+const ourBoard = Array(10).fill(Array(10))
