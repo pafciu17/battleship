@@ -1,6 +1,13 @@
 var express = require('express')
 var app = express()
 
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+io.on('connection', function (socket) {
+    socket.emit('connected', { status: 'OK' });
+});
+
 app.use(express.static('frontend'))
 
 var ships = [5, 4, 3, 3, 2];
@@ -22,7 +29,7 @@ var bodyParser = require( './node_modules/body-parser' );
 
 app.use(bodyParser.json());
 
-app.listen(3000, function () {
+server.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 })
 // respond with "hello world" when a GET request is made to the homepage
@@ -49,6 +56,11 @@ app.get('/start_game', function (req, res) {
     var response = {
         grid: battlefield
     }
+
+    io.emit('started', {
+        grid: battlefield
+    })
+
     res.send(`${JSON.stringify(response)}`);
 })
 
@@ -170,3 +182,4 @@ function getRandomInt(min, max) {
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * boardSize);
 }
+

@@ -1,3 +1,13 @@
+const socket = io.connect('http://localhost:3000/');
+socket.on('connected', function () {
+    console.log('Connected!!!');
+});
+
+const getBoardFilledWith = emptyValue => R.compose(
+    R.map(() => R.map(() => emptyValue, R.range(0, 10)))
+)(R.range(0, 10))
+
+// const ourShips = getBoardFilledWith(' ')
 const ourShips =
     [
         [ '1', ' ', '2', '2', '2', '2', ' ', ' ', ' ', ' ' ],
@@ -12,9 +22,7 @@ const ourShips =
         [ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '5' ]
     ]
 
-const targetShip = R.compose(
-    R.map(() => R.map(() => 'u', R.range(0, 10)))
-)(R.range(0, 10))
+const targetShip = getBoardFilledWith('u')
 
 const Block = ({ type }) => {
     const className = `board-block board-block-${type}`
@@ -36,30 +44,38 @@ const Board = ({ items }) => (
     </div>
 )
 
-const OurFleetBoard = props => (
-    <div>
-        Out board
-    </div>
-)
+class App extends React.Component {
 
-const EnemyBoard = props => (
-    <div>
-        Enemy Board
-    </div>
-)
+    constructor(props) {
+        super(props);
+        this.state = {
+            ourShips
+        };
+    }
 
-const App = props => (
-    <div>
-        <h1>Pirate's Battleship!!!</h1>
-        <div className="boards-container">
-            <div className="board-container">
-                <Board items={ourShips}/>
+    componentDidMount() {
+        socket.on('started', ({ grid }) => {
+            this.setState({
+                ourShips: grid
+            })
+        })
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Pirate's Battleship!!!</h1>
+                <div className="boards-container">
+                    <div className="board-container">
+                        <Board items={this.state.ourShips}/>
+                    </div>
+                    <div className="board-container">
+                        <Board items={targetShip}/>
+                    </div>
+                </div>
             </div>
-            <div className="board-container">
-                <Board items={targetShip}/>
-            </div>
-        </div>
-    </div>
-)
+        )
+    }
+}
 
 ReactDOM.render(<App />, document.getElementById('app'));
