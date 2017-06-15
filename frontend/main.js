@@ -46,6 +46,13 @@ class App extends React.Component {
                 ourShips: grid
             })
         })
+
+        socket.on('updated', ({ battlefield, enemyBoard }) => {
+            this.setState({
+                ourShips: battlefield,
+                enemyShips: enemyBoard
+            })
+        })
     }
 
     render() {

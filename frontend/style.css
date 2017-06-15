@@ -36,8 +36,16 @@
     background-image: url("/img/unknown.png");
 }
 
-.board-block-d {
+.board-block-SUNK {
     background-image: url("/img/dead.png");
+}
+
+.board-block-HIT {
+    background-color: red;
+}
+
+.board-block-SUNK {
+    background-color: white;
 }
 
 .board {
