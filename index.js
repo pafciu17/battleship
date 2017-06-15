@@ -185,6 +185,7 @@ function placeTheShip(point, direction, shipSize, ship) {
 }
 
 /*
+MDN:
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
