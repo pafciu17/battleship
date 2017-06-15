@@ -78,15 +78,15 @@ SUNK = 'SUNK';
 const enemyBoard = Array(10).fill(null).map(x => Array(10).fill(null));
 
 const updateBoards = (report) => {
-    battlefield[parseInt(report.enemy.target.x)][parseInt(report.enemy.target.y)] = report.enemy.event;
-    enemyBoard[parseInt(report.you.target.x)][parseInt(report.you.target.y)] = report.you.event;
+    battlefield[parseInt(report.enemy.target.y)][parseInt(report.enemy.target.x)] = report.enemy.event;
+    enemyBoard[parseInt(report.you.target.y)][parseInt(report.you.target.x)] = report.you.event;
 }
 
 const shoot = (res) => {
     var x = Math.floor(Math.random() * 10);
     var y = Math.floor(Math.random() * 10);
     console.log(x, y, enemyBoard);
-    while(enemyBoard[x][y]) {
+    while(enemyBoard[y][x]) {
         x = Math.floor(Math.random() * 10);
         y = Math.floor(Math.random() * 10);
     }
@@ -196,6 +196,7 @@ function placeTheShip(point, direction, shipSize, ship) {
 }
 
 /*
+MDN:
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
