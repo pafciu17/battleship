@@ -1,4 +1,11 @@
-var app = require('express.io')()
-app.http().io()
+var express = require('express')
+var app = express()
 
-app.listen(80)
+// respond with "hello world" when a GET request is made to the homepage
+app.get('/start_game', function (req, res) {
+    res.send('hello world')
+})
+
+app.listen(3000, function () {
+    console.log('Example app listening on port 3000!')
+})
