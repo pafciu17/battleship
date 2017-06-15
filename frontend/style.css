@@ -1,0 +1,55 @@
+.board-row {
+    display: inline-block;
+}
+
+.board-block {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border: 1px solid grey;
+    background-color: deepskyblue;
+    background-size: 40px 40px;
+    background-repeat: none;
+}
+
+.board-block-1 {
+    background-color: black;
+}
+
+.board-block-2 {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.board-block-3 {
+    background-color: rgba(0, 0, 0, 0.16);
+}
+
+.board-block-4 {
+    background-color: #00008b;
+}
+
+.board-block-5 {
+    background-color: rgba(0, 0, 139, 0.62);
+}
+
+.board-block-u {
+    background-image: url("/img/unknown.png");
+}
+
+.board-block-d {
+    background-image: url("/img/dead.png");
+}
+
+.board {
+    display:block;
+    flex: 1;
+}
+
+.boards-container {
+    display: flex;
+}
+
+.board-container {
+    flex: 1;
+    text-align: center;
+}
