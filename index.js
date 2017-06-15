@@ -1,5 +1,5 @@
-var express = require('express')
-var app = express()
+var express = require('express');
+var app = express();
 
 app.use(express.static('frontend'))
 
@@ -53,23 +53,37 @@ app.get('/start_game', function (req, res) {
 })
 
 app.post('/next_turn', (req, res) => {
-  res.send(`POST /next_turn. JSON: ${JSON.stringify(req.body)}`);
+    json = req.body;
+    updateOurBoard(json.report);
+    shoot(res);
 })
 
 app.post('/end_game', (req, res) => {
-  res.send(`POST /end_game. JSON: ${JSON.stringify(req.body)}`);
-})
+  res.send(`POST /end_game. JSON: ${JSON.stringify(req.body)}`)
+});
+
+// ”MISS” || ”HIT” || ”SUNK”
+MISS = 'MISS';
+HIT = 'HIT';
+SUNK = 'SUNK';
+
+const enemyBoard = Array(10).fill(null).map(x => Array(10).fill(HIT));
+const ourBoard = Array(10).fill(null).map(x => Array(10).fill(null));
 
 
-MISS = 'o'
-HIT = 'x'
-SUNK = 's'
+const updateOurBoard = (report) => {
+    enemyBoard[parseInt(report.you.target.x)][parseInt(report.you.target.y)] = report.you.event
+}
 
-const enemyBoard = new Array(10).fill(new Array(10))
-const ourBoard = new Array(10).fill(new Array(10))
-
-const updateOurBoard = (x, y) => {
-  
+const shoot = (res) => {
+    var x = Math.floor(Math.random() * 10);
+    var y = Math.floor(Math.random() * 10);
+    console.log(x, y, enemyBoard);
+    while(enemyBoard[x][y]) {
+        x = Math.floor(Math.random() * 10);
+        y = Math.floor(Math.random() * 10);
+    }
+    res.send([x, y]);
 }
 
 function clean() {
