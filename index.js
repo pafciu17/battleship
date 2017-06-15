@@ -62,7 +62,7 @@ app.get('/start_game', function (req, res) {
 
 app.post('/next_turn', (req, res) => {
     json = req.body;
-    updateBoard(json.report);
+    updateBoards(json.report);
     shoot(res);
 })
 
