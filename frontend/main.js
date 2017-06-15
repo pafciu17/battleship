@@ -3,6 +3,10 @@ socket.on('connected', function () {
     console.log('Connected!!!');
 });
 
+socket.on('end', ({ result, message }) => {
+    alert(`${result}: ${message}`);
+})
+
 const getBoardFilledWith = emptyValue => R.compose(
     R.map(() => R.map(() => emptyValue, R.range(0, 10)))
 )(R.range(0, 10))

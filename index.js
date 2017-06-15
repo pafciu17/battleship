@@ -67,7 +67,9 @@ app.post('/next_turn', (req, res) => {
 })
 
 app.post('/end_game', (req, res) => {
-  res.send(`POST /end_game. JSON: ${JSON.stringify(req.body)}`)
+    io.emit('end', {result: req.body.Result, message: req.body.endMessage});
+    res.send({"message" : 'AAAGH!'});
+    updateBoards(req.body.report);
 });
 
 // ”MISS” || ”HIT” || ”SUNK”
