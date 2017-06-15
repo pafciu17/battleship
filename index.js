@@ -55,7 +55,7 @@ app.get('/start_game', function (req, res) {
 
 app.post('/next_turn', (req, res) => {
     json = req.body;
-    updateOurBoard(json.report);
+    updateBoard(json.report);
     shoot(res);
 })
 
@@ -70,8 +70,9 @@ SUNK = 'SUNK';
 
 const enemyBoard = Array(10).fill(null).map(x => Array(10).fill(null));
 
-const updateOurBoard = (report) => {
-    enemyBoard[parseInt(report.you.target.x)][parseInt(report.you.target.y)] = report.you.event
+const updateBoards = (report) => {
+    battlefield[parseInt(report.enemy.target.x)][parseInt(report.enemy.target.y)] = report.enemy.event;
+    enemyBoard[parseInt(report.you.target.x)][parseInt(report.you.target.y)] = report.you.event;
 }
 
 const shoot = (res) => {
