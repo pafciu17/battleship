@@ -46,7 +46,7 @@ app.get('/start_game', function (req, res) {
     var response = {
         grid: battlefield
     }
-    res.send(`GET /start_game. JSON: ${JSON.stringify(response)}`);
+    res.send(`${JSON.stringify(response)}`);
 })
 
 app.post('/next_turn', (req, res) => {
