@@ -54,7 +54,7 @@ app.get('/start_game', function (req, res) {
             }
         } while(!fitsIn)
 
-        placeTheShip(point, directions[index], "" + (i+1));
+        placeTheShip(point, directions[index], ships[i], "" + (i+1));
     }
 
     sendBattlefield(res);
@@ -169,26 +169,26 @@ function checkIfFitsIn(point, direction, ship) {
     }
 }
 
-function placeTheShip(point, direction, ship) {
+function placeTheShip(point, direction, shipSize, ship) {
     switch(direction)
     {
         case "l":
-            for(var i = point.x - ship; i < point.x; i++) {
+            for(var i = point.x - shipSize; i < point.x; i++) {
                 battlefield[point.y][i] = ship;
             }
             break;
         case "r":
-            for(var i = point.x; i < point.x + ship; i++) {
+            for(var i = point.x; i < point.x + shipSize; i++) {
                 battlefield[point.y][i] = ship;
             }
             break;
         case "u":
-            for(var i = point.y - ship; i < point.y; i++) {
+            for(var i = point.y - shipSize; i < point.y; i++) {
                 battlefield[i][point.x] = ship;
             }
             break;
         case "d":
-            for(var i = point.y; i < point.y + ship; i++) {
+            for(var i = point.y; i < point.y + shipSize; i++) {
                 battlefield[i][point.x] = ship;
             }
             break;
