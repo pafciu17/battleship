@@ -1,5 +1,5 @@
-var express = require('express')
-var app = express()
+var express = require('express');
+var app = express();
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
@@ -34,6 +34,8 @@ server.listen(3000, function () {
 })
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/start_game', function (req, res) {
+    clean();
+
     for(var i = 0; i < 5; i++)
     {
         var fitsIn = false;
@@ -44,15 +46,54 @@ app.get('/start_game', function (req, res) {
             point.x = getRandomInt();
             point.y = getRandomInt();
 
+            console.log(point);
+
             for(index = 0; index < 4; index++) {
                 fitsIn = checkIfFitsIn(point, directions[index], ships[i]);
                 if(fitsIn) break;
             }
         } while(!fitsIn)
 
-        placeTheShip(point, directions[index], ships[i]);
+        placeTheShip(point, directions[index], "" + (i+1));
     }
 
+    sendBattlefield(res);
+})
+
+app.post('/next_turn', (req, res) => {
+    json = req.body;
+    updateBoard(json.report);
+    shoot(res);
+})
+
+app.post('/end_game', (req, res) => {
+  res.send(`POST /end_game. JSON: ${JSON.stringify(req.body)}`)
+});
+
+// ”MISS” || ”HIT” || ”SUNK”
+MISS = 'MISS';
+HIT = 'HIT';
+SUNK = 'SUNK';
+
+const enemyBoard = Array(10).fill(null).map(x => Array(10).fill(null));
+
+const updateBoards = (report) => {
+    battlefield[parseInt(report.enemy.target.x)][parseInt(report.enemy.target.y)] = report.enemy.event;
+    enemyBoard[parseInt(report.you.target.x)][parseInt(report.you.target.y)] = report.you.event;
+}
+
+const shoot = (res) => {
+    var x = Math.floor(Math.random() * 10);
+    var y = Math.floor(Math.random() * 10);
+    console.log(x, y, enemyBoard);
+    while(enemyBoard[x][y]) {
+        x = Math.floor(Math.random() * 10);
+        y = Math.floor(Math.random() * 10);
+    }
+    res.send([x, y]);
+}
+
+function sendBattlefield(res){
     var response = {
         grid: battlefield
     }
@@ -62,26 +103,6 @@ app.get('/start_game', function (req, res) {
     })
 
     res.send(`${JSON.stringify(response)}`);
-})
-
-app.post('/next_turn', (req, res) => {
-  res.send(`POST /next_turn. JSON: ${JSON.stringify(req.body)}`);
-})
-
-app.post('/end_game', (req, res) => {
-  res.send(`POST /end_game. JSON: ${JSON.stringify(req.body)}`);
-})
-
-
-MISS = 'o'
-HIT = 'x'
-SUNK = 's'
-
-const enemyBoard = new Array(10).fill(new Array(10))
-const ourBoard = new Array(10).fill(new Array(10))
-
-const updateOurBoard = (x, y) => {
-  
 }
 
 function clean() {
