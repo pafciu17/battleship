@@ -68,9 +68,7 @@ MISS = 'MISS';
 HIT = 'HIT';
 SUNK = 'SUNK';
 
-const enemyBoard = Array(10).fill(null).map(x => Array(10).fill(HIT));
-const ourBoard = Array(10).fill(null).map(x => Array(10).fill(null));
-
+const enemyBoard = Array(10).fill(null).map(x => Array(10).fill(null));
 
 const updateOurBoard = (report) => {
     enemyBoard[parseInt(report.you.target.x)][parseInt(report.you.target.y)] = report.you.event
