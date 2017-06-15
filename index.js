@@ -1,5 +1,8 @@
 var express = require('express')
 var app = express()
+
+app.use(express.static('frontend'))
+
 var ships = [5, 4, 3, 3, 2];
 var directions = ['l', 'r', 'u', 'd'];
 var boardSize = 10;
