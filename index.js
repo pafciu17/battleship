@@ -68,9 +68,6 @@ const ourBoard = new Array(10).fill(new Array(10))
 const updateOurBoard = (x, y) => {
   
 }
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!')
-})
 
 function checkIfFitsIn(point, direction, ship) {
     switch(direction)
